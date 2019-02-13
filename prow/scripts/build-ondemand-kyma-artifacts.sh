@@ -34,7 +34,7 @@ function export_variables() {
 
 init
 export_variables
-
+make -C /home/prow/go/src/github.com/kyma-project/kyma/components/installer ci-pr
 make -C /home/prow/go/src/github.com/kyma-project/kyma/tools/kyma-installer ci-create-ondemand-artifacts
 
 gsutil cp "${ARTIFACTS}/kyma-config-cluster.yaml" "${KYMA_ONDEMAND_ARTIFACTS_BUCKET}/${DOCKER_TAG}/kyma-config-cluster.yaml"
