@@ -27,4 +27,5 @@ func TestPresubmitOnDemandKymaArtifacts(t *testing.T) {
 	assert.Len(t, cont.Command, 1)
 	assert.Equal(t, "/home/prow/go/src/github.com/kyma-project/test-infra/prow/scripts/build-ondemand-kyma-artifacts.sh", cont.Command[0])
 	tester.AssertThatContainerHasEnv(t, cont, "KYMA_INSTALLER_PUSH_DIR", "pr/")
+
 }
