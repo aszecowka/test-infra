@@ -40,6 +40,7 @@ make -C /home/prow/go/src/github.com/kyma-project/kyma/tools/kyma-installer ci-c
 echo "Switch to different service account"
 
 export GOOGLE_APPLICATION_CREDENTIALS=/etc/credentials/sa-kyma-artifacts/service-account.json
+authenticate
 
 gsutil cp "${ARTIFACTS}/kyma-config-cluster.yaml" "${KYMA_ONDEMAND_ARTIFACTS_BUCKET}/${DOCKER_TAG}/kyma-config-cluster.yaml"
 gsutil cp "${ARTIFACTS}/kyma-installer-cluster.yaml" "${KYMA_ONDEMAND_ARTIFACTS_BUCKET}/${DOCKER_TAG}/kyma-installer-cluster.yaml"
