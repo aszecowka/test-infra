@@ -15,10 +15,7 @@ job_template: &job_template
       securityContext:
         privileged: true
       command:
-      - "/home/prow/go/src/github.com/kyma-project/test-infra/prow/scripts/build-ondemand-kyma-artifacts.sh"
-      env:
-        - name: KYMA_INSTALLER_PUSH_DIR
-          value: "pr/"
+      - "/home/prow/go/src/github.com/kyma-project/test-infra/prow/scripts/build-kyma-development-artifacts.sh"
       resources:
         requests:
           memory: 1Gi
@@ -27,6 +24,7 @@ job_template: &job_template
         - name: sa-kyma-artifacts
           mountPath: /etc/credentials/sa-kyma-artifacts
     volumes:
+      # we cannot use preset-sa-kyma-artifacts because we are using preset-sa-gcr-push which also set environment variable: GOOGLE_APPLICATION_CREDENTIALS.
       - name: sa-kyma-artifacts
         secret:
           secretName: sa-kyma-artifacts
@@ -34,13 +32,12 @@ job_template: &job_template
 job_labels_template: &job_labels_template
   preset-dind-enabled: "true"
   preset-docker-push-repository: "true"
-  preset-build-pr: "true"
-  preset-kyma-ondemands: "true"
+  preset-kyma-development-artifacts-bucket: "true"
   preset-sa-gcr-push: "true"
 
 presubmits: # runs on PRs
   kyma-project/kyma:
-  - name: pre-master-kyma-artifacts-ondemand
+  - name: pre-master-kyma-development-artifacts
     branches:
     - master
     <<: *job_template
@@ -49,4 +46,17 @@ presubmits: # runs on PRs
       base_ref: master
     labels:
       <<: *job_labels_template
+      preset-build-pr: "true"
 
+postsubmits:
+  kyma-project/kyma:
+  - name: post-master-kyma-development-artifacts
+    branches:
+      - master
+    <<: *job_template
+    extra_refs:
+      - <<: *test_infra_ref
+        base_ref: master
+    labels:
+      <<: *job_labels_template
+      preset-build-master: "true"
