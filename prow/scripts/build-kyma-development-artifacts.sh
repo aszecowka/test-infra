@@ -84,6 +84,7 @@ shout "Create development artifacts for PR"
 #  These variables are used to calculate installer version: eu.gcr.io/kyma-project/${KYMA_INSTALLER_PUSH_DIR}kyma-installer:${KYMA_INSTALLER_VERSION}
 # - ARTIFACTS_DIR - path to directory where artifacts will be stored
 env KYMA_INSTALLER_VERSION=${DOCKER_TAG} ARTIFACTS_DIR=${ARTIFACTS} "${KYMA_PATH}/installation/scripts/release-generate-kyma-installer-artifacts.sh"
+ls -la ${ARTIFACTS}
 
 shout "Switch to a different service account to push to GCS bucket"
 
