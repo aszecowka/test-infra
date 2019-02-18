@@ -62,7 +62,7 @@ export_variables
 #
 #
 # TODO
-env KYMA_PATH="/home/prow/go/src/github.com/kyma-project/kyma"
+export KYMA_PATH="/home/prow/go/src/github.com/kyma-project/kyma"
 
 if [[ "${BUILD_TYPE}" == "pr" ]]; then
     shout "Build installer for PR"
